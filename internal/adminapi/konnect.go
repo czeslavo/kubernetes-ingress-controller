@@ -16,7 +16,7 @@ import (
 	tlsutil "github.com/kong/kubernetes-ingress-controller/v2/internal/util/tls"
 )
 
-type KonnectConfig struct {
+type KonnectConfiguration struct {
 	ConfigSynchronizationEnabled bool
 	RuntimeGroupID               string
 	Address                      string
@@ -24,7 +24,7 @@ type KonnectConfig struct {
 	TLSClient                    TLSClientConfig
 }
 
-func NewKongClientForKonnectRuntimeGroup(c KonnectConfig) (*Client, error) {
+func NewKongClientForKonnectRuntimeGroup(c KonnectConfiguration) (*Client, error) {
 	clientCertificate, err := tlsutil.ExtractClientCertificates(
 		[]byte(c.TLSClient.Cert),
 		c.TLSClient.CertFile,

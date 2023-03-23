@@ -63,6 +63,12 @@ Adding a new version? You'll need three changes:
  - [0.0.5](#005)
  - [0.0.4 and prior](#004-and-prior)
 
+## Unreleased
+
+### Added
+
+- Renamed `KonnectConfig` to `KonnectConfiguration`.
+
 ## [2.9.0]
 
 > Release date: TBD
