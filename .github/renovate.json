@@ -1,0 +1,16 @@
+{
+  "registryUrls": [
+    "https://charts.konghq.com"
+  ],
+  "registryAliases": {
+    "kong": "https://charts.konghq.com"
+  },
+  "regexManagers": [
+    {
+      "fileMatch": ["(^|\\/)helm\\.go$"],
+      "matchStrings": ["const KongHelmChartVersion = \"(?<currentValue>.*?)\"\\n"],
+      "depNameTemplate": "kong",
+      "datasourceTemplate": "helm"
+    }
+  ]
+}
