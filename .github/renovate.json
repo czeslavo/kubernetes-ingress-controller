@@ -1,0 +1,27 @@
+{
+  "gomod": {
+    "enabled": false
+  },
+  "kustomize": {
+    "enabled": false
+  },
+  "github-actions": {
+    "enabled": false
+  },
+  "dockerfile": {
+    "enabled": false
+  },
+  "automerge": false,
+  "registryAliases": {
+    "kong": "https://charts.konghq.com"
+  },
+  "regexManagers": [
+    {
+      "fileMatch": ["(^|\\/)helm\\.go$"],
+      "matchStrings": ["const KongHelmChartVersion = \"(?<currentValue>.*?)\"\\n"],
+      "datasourceTemplate": "helm",
+      "registryUrlTemplate": "https://charts.konghq.com",
+      "depNameTemplate": "kong"
+    }
+  ]
+}
