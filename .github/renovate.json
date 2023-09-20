@@ -27,18 +27,14 @@
       "fileMatch": ["^.github/workflows/_e2e_tests.yaml$"],
       "matchStrings": ["\\\\\\\"(?<currentValue>.*?)\\\\\\\""],
       "datasourceTemplate": "docker",
-      "depNameTemplate": "kindest/node"
+      "depNameTemplate": "kindest/node",
+      "versioningTemplate": "docker"
     }
   ],
   "separateMinorPatch": true,
   "packageRules": [
     {
-      "matchUpdateTypes": "patch",
-      "matchDatasources": "docker",
-      "matchDepNames": "kindest/node",
-      "enabled": true
-    },
-    {
+      "matchUpdateTypes": "minor",
       "matchDatasources": "docker",
       "matchDepNames": "kindest/node",
       "enabled": false
