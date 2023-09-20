@@ -22,6 +22,26 @@
       "datasourceTemplate": "helm",
       "registryUrlTemplate": "https://charts.konghq.com",
       "depNameTemplate": "kong"
+    },
+    {
+      "fileMatch": ["^.github/workflows/_e2e_tests.yaml$"],
+      "matchStrings": ["\\\\\\\"(?<currentValue>.*?)\\\\\\\""],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "kindest/node"
+    }
+  ],
+  "separateMinorPatch": true,
+  "packageRules": [
+    {
+      "matchUpdateTypes": "patch",
+      "matchDatasources": "docker",
+      "matchDepNames": "kindest/node",
+      "enabled": true
+    },
+    {
+      "matchDatasources": "docker",
+      "matchDepNames": "kindest/node",
+      "enabled": false
     }
   ]
 }
