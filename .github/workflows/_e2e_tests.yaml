@@ -78,14 +78,19 @@ jobs:
     outputs:
       kind-versions: ${{ steps.set-kind-versions.outputs.kind-versions }}
     steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: setup golang
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: go.mod
       - id: set-kind-versions
         name: Set Kind versions
         run: |
-          if [ "${{ inputs.all-supported-k8s-versions }}" == "true" ]; then
-            echo "kind-versions=[\"1.23.17\", \"1.24.15\", \"1.25.11\", \"1.26.6\", \"1.27.3\", \"1.28.0\"]" >> $GITHUB_OUTPUT
-          else
-            echo "kind-versions=[\"1.28.0\"]" >> $GITHUB_OUTPUT
-          fi
+          echo "kind-versions=$(go run ./scripts/test-deps/main.go --test-level=e2e --dependency=kind --latest=${{ inputs.all-supported-k8s-versions }})" >> $GITHUB_OUTPUT
+
   kind:
     runs-on: ubuntu-latest
     if: ${{ !cancelled() }}
