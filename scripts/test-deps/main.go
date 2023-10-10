@@ -12,9 +12,10 @@ import (
 // DependenciesFile is a map of test levels and their dependencies.
 type DependenciesFile map[string]Dependencies
 
-// Dependencies is a map of dependencies and their versions OR
-// a slice of matrix entries that can be used in GitHub Actions matrix directly.
-type Dependencies any
+// Dependencies is a map of dependencies and their versions (either a single value or a slice of them).
+// Instead of versions, map values can also be a slice of matrix entries that can be used in GitHub Actions matrix
+// directly.
+type Dependencies map[string]interface{}
 
 // This program reads `.github/test_dependencies.yaml` file, extracts a requested dependency's versions
 // from it and prints it to stdout as a JSON value (as an array or a single value, depending on YAML definition).
@@ -46,42 +47,34 @@ func main() {
 		exitWithErr(fmt.Errorf("test level %s not found", testLevel))
 	}
 
-	switch deps := testLevelDeps.(type) {
-	case []string:
-		// If the test level is a slice of matrix entries, print it as a JSON array and exit.
-		err = json.NewEncoder(os.Stdout).Encode(deps)
-		exitIfErr(err)
-		os.Exit(0)
-	case map[string]interface{}:
-		// If the test level is a map of dependencies and their versions, continue.
-		versions, ok := deps[dependency]
-		if !ok {
-			exitWithErr(fmt.Errorf("dependency %s.%s not found", testLevel, dependency))
-		}
-
-		switch v := versions.(type) {
-		case string:
-			// If the dependency is a single version, print it as a JSON value and exit.
-			err = json.NewEncoder(os.Stdout).Encode(v)
-			exitIfErr(err)
-			os.Exit(0)
-		case []any:
-			// If --latest, use only the latest version...
-			if latest {
-				v = []any{v[0]}
-			}
-			// Print the versions as a JSON array and exit.
-			err = json.NewEncoder(os.Stdout).Encode(v)
-			exitIfErr(err)
-			os.Exit(0)
-		default:
-			exitWithErr(fmt.Errorf("dependency %s.%s is of unsupported type: %T", testLevel, dependency, versions))
-		}
-
-	default:
-		exitWithErr(fmt.Errorf("test level %q is of unsupported type: %T", testLevel, testLevelDeps))
+	dependencyEntry, ok := testLevelDeps[dependency]
+	if !ok {
+		exitWithErr(fmt.Errorf("dependency %s.%s not found", testLevel, dependency))
 	}
 
+	jsonValue, err := getJSONValueForDependency(dependencyEntry, latest)
+	if err != nil {
+		exitWithErr(fmt.Errorf("failed to get JSON value for dependency %s.%s: %w", testLevel, dependency, err))
+	}
+
+	if err := json.NewEncoder(os.Stdout).Encode(jsonValue); err != nil {
+		exitWithErr(fmt.Errorf("failed to encode JSON value for dependency %s.%s: %w", testLevel, dependency, err))
+	}
+}
+
+func getJSONValueForDependency(dependencyEntry any, latest bool) (any, error) {
+	switch v := dependencyEntry.(type) {
+	case string:
+		return v, nil
+	case []any:
+		// If --latest, use only the latest version (we assume latest is the first entry).
+		if latest {
+			v = []any{v[0]}
+		}
+		return v, nil
+	default:
+		return nil, fmt.Errorf("dependency entry of unsupported type: %T", dependencyEntry)
+	}
 }
 
 func exitIfErr(err error) {
