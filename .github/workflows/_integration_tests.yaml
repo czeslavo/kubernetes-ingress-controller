@@ -11,7 +11,7 @@ on:
         type: string
         # TODO: Consider changing to "kong:latest"
         # See https://github.com/Kong/kubernetes-testing-framework/issues/542
-        default: "<from_test_dependencies>"
+        default: "<from_test_dependencies.yaml>"
         required: false
       kong-oss-effective-version:
         # specifies effective semver of Kong gateway OSS when tag is not a valid semver (like 'nightly').
@@ -26,7 +26,7 @@ on:
         type: string
         # TODO: Consider changing to "kong/kong-gateway:latest"
         # See https://github.com/Kong/kubernetes-testing-framework/issues/542
-        default: "<from_test_dependencies>"
+        default: "<from_test_dependencies.yaml>"
         required: false
       kong-enterprise-effective-version:
         # specifies effective semver of Kong gateway enterprise when tag is not a valid semver (like 'nightly').
@@ -55,9 +55,9 @@ jobs:
       - id: set-versions
         name: Set versions
         run: |
-          echo "kind=$(go run ./scripts/test-deps/main.go --test-level=integration --dependency=kind)" >> $GITHUB_OUTPUT
-          echo "kong-ee=$(go run ./scripts/test-deps/main.go --test-level=integration --dependency=kong-ee)" >> $GITHUB_OUTPUT
-          echo "kong-oss=$(go run ./scripts/test-deps/main.go --test-level=integration --dependency=kong-oss)" >> $GITHUB_OUTPUT
+          echo "kind=$(cat .github/test_dependencies.yaml | yq -ojson '.integration.kind' | jq -c)" >> $GITHUB_OUTPUT
+          echo "kong-ee=$(cat .github/test_dependencies.yaml | yq -ojson '.integration.kong-oss' | jq -c)" >> $GITHUB_OUTPUT
+          echo "kong-oss=$(cat .github/test_dependencies.yaml | yq -ojson '.integration.kong-ee' | jq -c)" >> $GITHUB_OUTPUT
 
   integration-tests:
     name: ${{ matrix.name }}
@@ -108,20 +108,20 @@ jobs:
             go_test_flags: -run=TestIngressRecoverFromInvalidPath
 
     steps:
-#      - uses: Kong/kong-license@master
-#        id: license
-#        with:
-#          password: ${{ secrets.PULP_PASSWORD }}
+      - uses: Kong/kong-license@master
+        id: license
+        with:
+          password: ${{ secrets.PULP_PASSWORD }}
 
       - name: Set image of Kong
         id: set_kong_image
         run: |
           kong_ee_tag="${{ inputs.kong-enterprise-container-tag }}"
-          if [ "${{ inputs.kong-enterprise-container-tag }}" == "<from_test_dependencies>" ]; then
+          if [ "${{ inputs.kong-enterprise-container-tag }}" == "<from_test_dependencies.yaml>" ]; then
             kong_ee_tag=${{ needs.dependencies-versions.outputs.kong-ee }}
           fi
           kong_oss_tag="${{ inputs.kong-container-tag }}"
-          if [ "${{ inputs.kong-container-tag }}" == "<from_test_dependencies>" ]; then
+          if [ "${{ inputs.kong-container-tag }}" == "<from_test_dependencies.yaml>" ]; then
               kong_oss_tag=${{ needs.dependencies-versions.outputs.kong-oss }}
           fi
 
