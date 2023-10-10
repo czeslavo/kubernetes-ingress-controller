@@ -93,7 +93,6 @@ jobs:
           echo "kind=$(go run ./scripts/test-deps/main.go --test-level=e2e --dependency=kind --latest=${{ !inputs.all-supported-k8s-versions }})" >> $GITHUB_OUTPUT
           echo "gke=$(go run ./scripts/test-deps/main.go --test-level=e2e --dependency=gke)" >> $GITHUB_OUTPUT
           echo "istio=$(go run ./scripts/test-deps/main.go --test-level=e2e --dependency=istio)" >> $GITHUB_OUTPUT
-          
 
   kind:
     runs-on: ubuntu-latest
@@ -278,8 +277,8 @@ jobs:
           TEST_KONG_LOAD_IMAGES: ${{ inputs.load-local-image }}
           TEST_KONG_IMAGE_OVERRIDE: ${{ inputs.kong-image }}
           KONG_LICENSE_DATA: ${{ steps.license.outputs.license }}
-          KONG_CLUSTER_VERSION: ${{ matrix.kubernetes-version }}
-          ISTIO_VERSION: ${{ matrix.istio-version }}
+          KONG_CLUSTER_VERSION: ${{ matrix.kind }}
+          ISTIO_VERSION: ${{ matrix.istio }}
           NCPU: 1 # it was found that github actions (specifically) did not seem to perform well when spawning
           # multiple kind clusters within a single job, so only 1 is allowed at a time.
           GOTESTSUM_JUNITFILE: "istio-${{ matrix.kubernetes-version }}-${{ matrix.istio-version }}-tests.xml"

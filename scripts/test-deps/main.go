@@ -17,7 +17,7 @@ type DependenciesFile map[string]Dependencies
 type Dependencies any
 
 // This program reads `.github/test_dependencies.yaml` file, extracts a requested dependency's versions
-// from it and prints it to stdout as a JSON array that can be used in GitHub Actions matrix.
+// from it and prints it to stdout as a JSON value (as an array or a single value, depending on YAML definition).
 //
 // Usage:
 // go run scripts/test-deps/main.go <test-level> <dependency> [--latest]
@@ -59,19 +59,25 @@ func main() {
 			exitWithErr(fmt.Errorf("dependency %s.%s not found", testLevel, dependency))
 		}
 
-		vs, ok := versions.([]any)
-		if !ok {
+		switch v := versions.(type) {
+		case string:
+			// If the dependency is a single version, print it as a JSON value and exit.
+			err = json.NewEncoder(os.Stdout).Encode(v)
+			exitIfErr(err)
+			os.Exit(0)
+		case []any:
+			// If --latest, use only the latest version...
+			if latest {
+				v = []any{v[0]}
+			}
+			// Print the versions as a JSON array and exit.
+			err = json.NewEncoder(os.Stdout).Encode(v)
+			exitIfErr(err)
+			os.Exit(0)
+		default:
 			exitWithErr(fmt.Errorf("dependency %s.%s is of unsupported type: %T", testLevel, dependency, versions))
 		}
 
-		// If only the latest, use only the latest version...
-		if latest {
-			vs = []any{vs[len(vs)-1]}
-		}
-
-		// Print the versions as a JSON array.
-		err = json.NewEncoder(os.Stdout).Encode(vs)
-		exitIfErr(err)
 	default:
 		exitWithErr(fmt.Errorf("test level %q is of unsupported type: %T", testLevel, testLevelDeps))
 	}
