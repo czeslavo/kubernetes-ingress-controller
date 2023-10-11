@@ -3,15 +3,15 @@ e2e:
     # renovate: datasource=docker depName=kindest/node versioning=docker
     - 'v1.28.0'
     # renovate: datasource=docker depName=kindest/node versioning=docker
-    - 'v1.27.3'
+    - 'v1.28.0'
     # renovate: datasource=docker depName=kindest/node versioning=docker
-    - 'v1.26.6'
+    - 'v1.28.0'
     # renovate: datasource=docker depName=kindest/node versioning=docker
-    - 'v1.25.11'
+    - 'v1.28.0'
     # renovate: datasource=docker depName=kindest/node versioning=docker
-    - 'v1.24.15'
+    - 'v1.28.0'
     # renovate: datasource=docker depName=kindest/node versioning=docker
-    - 'v1.23.17'
+    - 'v1.28.0'
   gke:
     - 'v1.26.5'
   istio:
@@ -23,21 +23,21 @@ e2e:
       # renovate: datasource=docker depName=istio/istioctl versioning=docker
       istio: 'v1.19'
       # renovate: datasource=docker depName=kindest/node versioning=docker
-    - kind: 'v1.27.3'
+    - kind: 'v1.28.0'
       # renovate: datasource=docker depName=istio/istioctl versioning=docker
       istio: 'v1.18'
       # renovate: datasource=docker depName=kindest/node versioning=docker
-    - kind: 'v1.26.6'
+    - kind: 'v1.28.0'
       # renovate: datasource=docker depName=istio/istioctl versioning=docker
       istio: 'v1.17'
       # renovate: datasource=docker depName=kindest/node versioning=docker
-    - kind: 'v1.25.11'
+    - kind: 'v1.28.0'
       # renovate: datasource=docker depName=istio/istioctl versioning=docker
       istio: 'v1.16'
 
 integration:
   # renovate: datasource=docker depName=kindest/node versioning=docker
-  kind: 'v1.27.3'
+  kind: 'v1.28.0'
   # renovate: datasource=docker depName=kong versioning=docker
   kong-oss: '3.4.1'
   # renovate: datasource=docker depName=kong/kong-gateway versioning=docker
