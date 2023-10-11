@@ -41,4 +41,4 @@ integration:
   # renovate: datasource=docker depName=kong versioning=docker
   kong-oss: '3.4.0'
   # renovate: datasource=docker depName=kong/kong-gateway versioning=docker
-  kong-ee: '3.4.1.0'
+  kong-ee: '3.4.1.1'
