@@ -17,10 +17,14 @@ e2e:
       istio: 'v1.18'
     - kind: 'v1.26.6'
       istio: 'v1.17'
+    # renovate: datasource=docker depName=kindest/node versioning=docker
     - kind: 'v1.25.11'
       istio: 'v1.16'
 
 integration:
-  kind: 'v1.28.0'
-  kong-oss: '3.4'
-  kong-ee: '3.4'
+  # renovate: datasource=docker depName=kindest/node versioning=docker
+  kind: 'v1.27.0'
+  # renovate: datasource=docker depName=kong versioning=docker
+  kong-oss: '3.4.0'
+  # renovate: datasource=docker depName=kong/kong-gateway versioning=docker
+  kong-ee: '3.4.0'
