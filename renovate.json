@@ -12,9 +12,6 @@
     "enabled": false
   },
   "automerge": false,
-  "registryAliases": {
-    "kong": "https://charts.konghq.com"
-  },
   "separateMinorPatch": true,
   "customManagers": [
     {
@@ -24,5 +21,11 @@
         "#\\s+renovate:\\s+datasource=(?<datasource>.*)\\s+depName=(?<depName>.*)\\s+versioning=(?<versioning>.*)\\n.+'(?<currentValue>.*)'"
       ]
     }
-  ]
+  ],
+  "customDatasources": {
+    "gke-rapid": {
+      "defaultRegistryUrlTemplate": "https://raw.githubusercontent.com/czeslavo/gke-renovate-datasource/main/static/rapid.json",
+      "format": "json"
+    }
+  }
 }
