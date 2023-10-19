@@ -17,7 +17,7 @@ spec:
     kind: IngressClassParameters
     listKind: IngressClassParametersList
     plural: ingressclassparameterses
-    singular:
+    singular: ingressclassparameters
   scope: Namespaced
   versions:
   - name: v1alpha1
