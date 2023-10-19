@@ -1,11 +1,10 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "configMigration": true,
-  "enabledManagers": ["regex"],
+  "enabledManagers": ["regex", "kustomize"],
   "automerge": false,
   "separateMinorPatch": true,
   "labels": ["dependencies"],
-  "schedule": "before 5am every weekday",
   "registryAliases": {
     "kong": "https://charts.konghq.com"
   },
@@ -33,6 +32,11 @@
       "matchUpdateTypes": ["minor"],
       "matchDepPatterns": [".*@only-patch"],
       "enabled": false
+    },
+    {
+      "description": "Add renovate/auto-regenerate label to a GH PR if it changes kustomize files.",
+      "matchManagers": ["kustomize"],
+      "labels": ["renovate/auto-regenerate"]
     }
   ]
 }

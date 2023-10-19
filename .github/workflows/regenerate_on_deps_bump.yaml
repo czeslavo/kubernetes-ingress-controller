@@ -1,0 +1,29 @@
+name: Regenerate on deps update
+
+on:
+  pull_request:
+    types:
+      - labeled
+
+jobs:
+  regenerate:
+    if: contains(github.event.*.labels.*.name, 'renovate/auto-regenerate')
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: setup golang
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: go.mod
+
+      - name: regenerate
+        run: make generate
+
+      - name: commit changes (if any)
+        run: |
+          git diff --exit-code || git commit -am "chore: regenerate on deps update"
+          git push origin HEAD
