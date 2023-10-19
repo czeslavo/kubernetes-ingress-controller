@@ -1,11 +1,10 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "configMigration": true,
-  "enabledManagers": ["regex"],
+  "enabledManagers": ["regex", "kustomize"],
   "automerge": false,
   "separateMinorPatch": true,
   "labels": ["dependencies"],
-  "schedule": "before 5am every weekday",
   "registryAliases": {
     "kong": "https://charts.konghq.com"
   },
