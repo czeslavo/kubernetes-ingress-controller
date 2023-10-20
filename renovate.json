@@ -5,7 +5,6 @@
   "automerge": false,
   "separateMinorPatch": true,
   "labels": ["dependencies"],
-  "schedule": "before 5am every weekday",
   "registryAliases": {
     "kong": "https://charts.konghq.com"
   },
