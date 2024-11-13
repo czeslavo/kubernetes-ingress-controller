@@ -16,6 +16,7 @@ resources:
 - bases/configuration.konghq.com_kongvaults.yaml
 - bases/configuration.konghq.com_konglicenses.yaml
 - bases/configuration.konghq.com_kongcustomentities.yaml
+- https://github.com/kong/kubernetes-configuration/config/crd/ingress-controller?ref=v0.0.41
 #+kubebuilder:scaffold:crdkustomizeresource
 
 # [WEBHOOK] To enable webhook, uncomment all the sections with [WEBHOOK] prefix.
