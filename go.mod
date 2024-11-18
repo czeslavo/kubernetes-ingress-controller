@@ -19,7 +19,7 @@ go 1.23.2
 // toolchain go1.21.0
 
 require (
-	cloud.google.com/go/container v1.42.0
+	cloud.google.com/go/container v1.41.0
 	github.com/Masterminds/sprig/v3 v3.3.0
 	github.com/avast/retry-go/v4 v4.6.0
 	github.com/blang/semver/v4 v4.0.0
@@ -32,7 +32,7 @@ require (
 	github.com/jpillora/backoff v1.0.0
 	github.com/kong/go-database-reconciler v1.15.0
 	github.com/kong/go-kong v0.59.1
-	github.com/kong/kubernetes-configuration v0.0.44
+	github.com/kong/kubernetes-configuration v0.0.43
 	github.com/kong/kubernetes-telemetry v0.1.7
 	github.com/kong/kubernetes-testing-framework v0.47.2
 	github.com/lithammer/dedent v1.1.0
