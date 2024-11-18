@@ -3,7 +3,8 @@
   "configMigration": true,
   "enabledManagers": [
     "custom.regex",
-    "kustomize"
+    "kustomize",
+    "gomod"
   ],
   "automerge": false,
   "separateMinorPatch": true,
@@ -83,6 +84,25 @@
       ],
       "matchDepNames": [
         "/.*@regenerate/"
+      ]
+    },
+    {
+      "description": "Add 'renovate/auto-regenerate' label to a PR if it changes go.mod files to trigger regenerate_on_deps_bump.yaml workflow.",
+      "matchManagers": [
+        "gomod"
+      ],
+      "addLabels": [
+        "renovate/auto-regenerate"
+      ]
+    },
+    {
+      "description": "Ignore go.mod updates that are handled by dependabot.",
+      "matchManagers": [
+        "gomod"
+      ],
+      "enabled": false,
+      "matchPackageNames": [
+        "^(?!kong\\/kubernetes-configuration$).*"
       ]
     }
   ]
